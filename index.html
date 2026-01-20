@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Mini Quiz Ambis</title>
+    <style>
+        /* LAYER 1: Background Utama */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                        url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* LAYER 2: Kotak Formulir Login */
+        .login-card {
+            background-color: #ffffff; /* Kotak tetap putih */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: left;
+        }
+
+        .login-card h1 {
+            text-align: center;
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .login-card h2 {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+        }
+
+        /* Tombol Login Dinamis */
+        #loginBtn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #999;
+            background-color: #e0e0e0; /* Default Abu-abu */
+            cursor: not-allowed;
+            transition: all 0.4s ease;
+        }
+
+        /* Warna saat semua form terisi */
+        #loginBtn.active {
+            background-color: #28a745; /* Hijau (Bisa ganti #007bff jika ingin biru) */
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+
+        #loginBtn.active:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.1);
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 13px;
+            color: #777;
+        }
+
+        .footer-text a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <main class="auth-container">
+        <div class="login-card">
+            <h1>Welcome to Mini Quiz Ambis</h1>
+            <h2>Login</h2>
+
+            <form id="loginForm">
+                <label for="nama">Username</label>
+                <input type="text" id="nama" placeholder="Masukkan username" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" placeholder="Masukkan email" required>
+
+                <label for="password">Kata Sandi:</label>
+                <input type="password" id="password" placeholder="Masukkan kata sandi" required>
+                
+                <div id="authError" class="alert alert-danger d-none"></div>
+
+                <button type="submit" id="loginBtn" disabled>Masuk</button>
+            </form>
+
+            <p class="footer-text">
+                Belum memiliki akun? <a href="register.html">Daftar</a>
+            </p>
+        </div>
+    </main>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        const form = document.getElementById('loginForm');
+        const btn = document.getElementById('loginBtn');
+        const inputs = form.querySelectorAll('input[required]');
+
+        // Validasi input untuk merubah warna tombol
+        function validate() {
+            let isValid = true;
+            inputs.forEach(input => {
+                if (input.value.trim() === "") isValid = false;
+            });
+
+            if (isValid) {
+                btn.disabled = false;
+                btn.classList.add('active');
+            } else {
+                btn.disabled = true;
+                btn.classList.remove('active');
+            }
+        }
+
+        // Jalankan fungsi setiap user mengetik
+        inputs.forEach(input => {
+            input.addEventListener('input', validate);
+        });
+
+        // Redirect ke dashboard saat submit
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            window.location.href = "verify-email.html";
+        });
+    </script>
+</body>
+</html>

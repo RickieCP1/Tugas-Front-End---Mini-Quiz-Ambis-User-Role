@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Management - Mini Quiz Ambis</title>
+    
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            background-color: #f1f5f9;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Navbar Styling (Sesuai Dashboard) */
+        .navbar {
+            background-color: #ffffff;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+        }
+
+        .navbar h1 {
+            font-size: 20px;
+            margin: 0;
+            color: #2563eb;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #1e293b;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #444;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        /* Tombol Update Dinamis */
+        #updateBtn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            background-color: #e2e8f0; /* Default Abu-abu */
+            color: #94a3b8;
+            cursor: not-allowed;
+            transition: 0.3s ease;
+            margin-top: 10px;
+        }
+
+        /* Class Aktif Tombol */
+        #updateBtn.active {
+            background-color: #2563eb; /* Biru Menyala */
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .profile-actions {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .btn-link {
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        #statusMessage {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        #logoutBtn {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <h1>Profile Management</h1>
+        <nav class="nav-links">
+          <a href="dashboard.html">Dashboard</a>
+          <a href="history.html">History</a>
+          <button id="logoutBtn">Logout</button>
+        </nav>
+    </header>
+      
+    <main class="container">
+        <div class="profile-card">
+            <h2>Account Information</h2>
+          
+            <form id="profileForm">
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" value="Budi Santoso" required />
+              </div>
+          
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" value="budi.santoso@example.com" required />
+              </div>
+          
+              <button type="submit" id="updateBtn" disabled>Update Profile</button>
+            </form>
+          
+            <div class="profile-actions">
+              <a href="change-password.html" class="btn-link">
+                Change Password?
+              </a>
+            </div>
+          
+            <div id="statusMessage"></div>
+        </div>
+    </main>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/profile.js"></script>
+
+    <script>
+        const profileForm = document.getElementById('profileForm');
+        const updateBtn = document.getElementById('updateBtn');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // Simpan data awal untuk mendeteksi perubahan
+        const originalData = {
+            name: nameInput.value,
+            email: emailInput.value
+        };
+
+        // Fungsi cek perubahan
+        function checkChanges() {
+            const isChanged = nameInput.value !== originalData.name || 
+                              emailInput.value !== originalData.email;
+            
+            const isNotEmpty = nameInput.value.trim() !== "" && 
+                               emailInput.value.trim() !== "";
+
+            if (isChanged && isNotEmpty) {
+                updateBtn.disabled = false;
+                updateBtn.classList.add('active');
+            } else {
+                updateBtn.disabled = true;
+                updateBtn.classList.remove('active');
+            }
+        }
+
+        // Pantau input
+        nameInput.addEventListener('input', checkChanges);
+        emailInput.addEventListener('input', checkChanges);
+
+        // Submit Form
+        profileForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simulasi Update Berhasil
+            const status = document.getElementById('statusMessage');
+            status.innerHTML = "<span style='color: green;'>Profile updated successfully!</span>";
+            
+            // Update data original agar tombol mati lagi setelah save
+            originalData.name = nameInput.value;
+            originalData.email = emailInput.value;
+            checkChanges();
+
+            // Hilangkan pesan setelah 3 detik
+            setTimeout(() => { status.innerHTML = ""; }, 3000);
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            if(confirm("Logout dari akun?")) {
+                window.location.href = "index.html";
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz History - Mini Quiz Ambis</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { background-color: #f1f5f9; font-family: 'Inter', sans-serif; }
+        .navbar { 
+            background: white; padding: 15px 50px; display: flex; 
+            justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+        }
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        h2 { color: #1e293b; font-weight: 700; margin-bottom: 25px; }
+        
+        /* Table Styling */
+        .history-card { 
+            background: white; padding: 20px; border-radius: 16px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; 
+        }
+        .history-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .history-table th { background: #f8fafc; padding: 15px; text-align: left; color: #64748b; font-size: 14px; }
+        .history-table td { padding: 15px; border-top: 1px solid #f1f5f9; color: #334155; font-size: 15px; }
+        
+        /* Badge & Button */
+        .score-badge { 
+            background: #dcfce7; color: #166534; padding: 4px 12px; 
+            border-radius: 20px; font-weight: 600; font-size: 13px; 
+        }
+        .btn-detail { 
+            background: #2563eb; color: white; border: none; padding: 6px 16px; 
+            border-radius: 8px; font-size: 13px; cursor: pointer; text-decoration: none;
+            transition: 0.3s;
+        }
+        .btn-detail:hover { background: #1d4ed8; }
+        #loading { text-align: center; padding: 20px; color: #64748b; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <h1 style="font-size: 20px; color: #2563eb; margin:0;">Quiz History</h1>
+        <nav style="display:flex; gap:20px;">
+          <a href="dashboard.html" style="text-decoration:none; color:#64748b;">Dashboard</a>
+          <a href="profile.html" style="text-decoration:none; color:#64748b;">Profile</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h2>Your Quiz Attempts</h2>
+        
+        <div class="history-card">
+            <div id="loading">Loading history...</div>
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Subtest</th>
+                        <th>Score</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody">
+                    <tr>
+                        <td>20 Jan 2026</td>
+                        <td>Mathematics</td>
+                        <td><span class="score-badge">85/100</span></td>
+                        <td><a href="history-detail.html" class="btn-detail">Detail</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="errorMessage" class="error"></div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/history.js"></script>
+</body>
+</html>

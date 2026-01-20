@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi Email - Mini Quiz Ambis</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        /* CSS Khusus untuk menyesuaikan tema Layered Background */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            /* Background Layer (Konsisten dengan halaman login) */
+            background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), 
+                        url('https://images.unsplash.com/photo-1557200134-90327ee9fafa?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .verify-card {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #1e293b;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* Styling Input Kode */
+        .code-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 4px; /* Memberi jarak antar angka kode */
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .code-input:focus {
+            border-color: #2563eb;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Tombol Authenticate */
+        #verifyBtn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #94a3b8;
+            background-color: #e2e8f0; /* Default abu-abu */
+            cursor: not-allowed;
+            transition: all 0.3s ease;
+        }
+
+        /* Class Aktif saat kode terisi */
+        #verifyBtn.active {
+            background-color: #2563eb;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .resend-text {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .resend-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .resend-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="verify-card">
+        <h1>Verifikasi Email</h1>
+        <p>Kami telah mengirimkan 6 digit kode verifikasi ke email Anda. Silakan masukkan kode untuk melanjutkan ke Dashboard.</p>
+        
+        <form id="verifyForm">
+            <input type="text" 
+                   id="verificationCode" 
+                   name="kode_verifikasi" 
+                   class="code-input" 
+                   placeholder="000000" 
+                   maxlength="6" 
+                   autocomplete="off"
+                   required>
+            
+            <button type="submit" id="verifyBtn" disabled>Verify & Authenticate</button>
+        </form>
+        
+        <p class="resend-text">
+            Tidak menerima kode? <a href="#" class="resend-link">Kirim Ulang Kode</a>
+        </p>
+    </div>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/profile.js"></script>
+    <script>
+        const codeInput = document.getElementById('verificationCode');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const verifyForm = document.getElementById('verifyForm');
+
+        // Fungsi Validasi: Tombol menyala jika input mencapai 6 karakter
+        codeInput.addEventListener('input', function() {
+            // Hanya izinkan angka
+            this.value = this.value.replace(/[^0-9]/g, '');
+
+            if (this.value.length === 6) {
+                verifyBtn.disabled = false;
+                verifyBtn.classList.add('active');
+            } else {
+                verifyBtn.disabled = true;
+                verifyBtn.classList.remove('active');
+            }
+        });
+
+        // Simulasi Proses Verifikasi
+        verifyForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Ubah teks tombol saat loading (opsional)
+            verifyBtn.innerText = "Authenticating...";
+            
+            // Simulasi delay jaringan
+            setTimeout(() => {
+                // Arahkan ke dashboard
+                window.location.href = "dashboard.html";
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

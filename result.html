@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Kuis - Mini Quiz Ambis</title>
+    
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Inter', sans-serif;
+            /* Latar belakang gambar seperti referensi kedua Anda */
+            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
+                        url('https://images.unsplash.com/photo-1434031211660-39498a13a0e5?auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* Navbar Transparan */
+        .navbar {
+            padding: 20px 50px;
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar h1 {
+            font-size: 20px;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .result-page {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Card Hasil */
+        .result-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+
+        /* Skor Besar */
+        .score-display {
+            font-size: 80px;
+            font-weight: 800;
+            color: #2563eb;
+            margin: 10px 0;
+            line-height: 1;
+        }
+
+        .score-label {
+            font-size: 16px;
+            color: #1e293b;
+            font-weight: 600;
+            margin-bottom: 30px;
+        }
+
+        /* Summary Stats */
+        .summary-stats {
+            display: flex;
+            justify-content: space-around;
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item span {
+            display: block;
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .stat-item b {
+            font-size: 18px;
+            color: #1e293b;
+        }
+
+        /* Actions */
+        .result-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-result {
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+            display: block;
+        }
+
+        .btn-main {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-main:hover {
+            background: #1d4ed8;
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #2563eb;
+            border: 2px solid #2563eb;
+        }
+
+        .btn-outline:hover {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <h1>Mini Quiz Ambis</h1>
+    </header>
+
+    <main class="result-page">
+        <div class="result-card">
+            <h2>Hasil Akhir</h2>
+            
+            <div id="scoreContainer">
+                <div id="scoreValue" class="score-display">85</div>
+                <p class="score-label">Selamat! Kamu melakukan pekerjaan yang baik.</p>
+            </div>
+
+            <div id="summary" class="summary-stats">
+                <div class="stat-item">
+                    <span>Benar</span>
+                    <b id="correctCount" style="color: #22c55e;">17</b>
+                </div>
+                <div class="stat-item">
+                    <span>Salah</span>
+                    <b id="wrongCount" style="color: #ef4444;">3</b>
+                </div>
+                <div class="stat-item">
+                    <span>Waktu</span>
+                    <b id="timeTaken">12:40</b>
+                </div>
+            </div>
+
+            <div class="result-actions">
+                <a href="dashboard.html" class="btn-result btn-main">Kembali ke Dashboard</a>
+                <a href="history.html" class="btn-result btn-outline">Lihat Riwayat Kuis</a>
+            </div>
+        </div>
+    </main>
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/result.js"></script>
+</body>
+</html>
